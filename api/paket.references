@@ -1,3 +1,4 @@
 group Api
     FSharp.Core
     Microsoft.NET.Sdk.Functions
+    Microsoft.Azure.WebJobs.Extensions.CosmosDB

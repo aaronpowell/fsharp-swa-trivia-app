@@ -2,7 +2,8 @@ group Client
     framework: netstandard2.0
     source https://api.nuget.org/v3/index.json
 
-nuget Feliz
+    nuget Feliz
+    nuget Feliz.Router
     nuget FSharp.Core
     nuget Fable.Browser.Dom
     nuget Fable.Core
@@ -13,6 +14,7 @@ group Api
     source https://api.nuget.org/v3/index.json
 
     nuget FSharp.Core
+    nuget Microsoft.Azure.WebJobs.Extensions.CosmosDB
     nuget Microsoft.NET.Sdk.Functions
 
     # avoid getting a .NET 5 version through transient deps

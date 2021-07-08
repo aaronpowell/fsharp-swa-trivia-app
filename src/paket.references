@@ -4,3 +4,4 @@ group Client
     Fable.Browser.Dom
     Thoth.Fetch
     Feliz
+    Feliz.Router

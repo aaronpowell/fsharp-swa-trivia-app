@@ -12,7 +12,18 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GetMessage.fs" />
+    <Compile Include="../shared/Types.fs" />
+    <Compile Include="Startup.fs" />
+    <Compile Include="CreateGame.fs" />
+    <Compile Include="GetGame.fs" />
+    <Compile Include="AddPlayerToGame.fs" />
+    <Compile Include="StartGame.fs" />
+    <Compile Include="AnswerQuestion.fs" />
+    <Compile Include="GetResults.fs" />
+    <Compile Include="EndGame.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

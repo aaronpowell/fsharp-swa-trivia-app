@@ -1,43 +1,55 @@
 module App
 
-open Browser.Dom
-open Fetch
-open Thoth.Fetch
 open Feliz
+open Feliz.Router
+open Home
+open Join
+open Play
+open Result
+open Types
+
+type Page =
+    | Home
+    | Join of string
+    | Play of string * string
+    | Result of string * string
+    | NotFound
+
+let parseUrl =
+    function
+    | [] -> Page.Home
+    | [ "game"; gameId ] -> Page.Join gameId
+    | [ "game"; gameId; "play"; playerId ] -> Page.Play(gameId, playerId)
+    | [ "game"; gameId; "result"; playerId ] -> Page.Result(gameId, playerId)
+    | _ -> Page.NotFound
 
 [<ReactComponent>]
-let Counter () =
-    let (count, setCount) = React.useState (0)
+let App () =
+    let (pageUrl, updateUrl) =
+        React.useState (parseUrl (Router.currentUrl ()))
 
-    Html.div [ Html.h1 count
-               Html.button [ prop.text "Increment"
-                             prop.onClick (fun _ -> setCount (count + 1)) ] ]
+    let (currentGame, setCurrentGame) =
+        React.useState<InProgressGame option> None
 
-[<ReactComponent>]
-let Message () =
-    let (message, setMessage) = React.useState ("")
+    let currentPage =
+        match pageUrl with
+        | Home -> HomePage()
+        | Join gameId ->
+            JoinPage
+                {| gameId = gameId
+                   onStarted = fun game -> setCurrentGame (Some game) |}
+        | Play (gameId, playerId) ->
+            match currentGame with
+            | Some game -> PlayPage {| game = game; playerId = playerId |}
+            | None -> Html.h1 [ prop.text "Error - game not set" ]
+        | Result (gameId, playerId) ->
+            ResultPage
+                {| gameId = gameId
+                   playerId = playerId |}
+        | NotFound -> Html.h1 [ prop.text "404" ]
 
-    Html.div [ Html.button [ prop.text "Get a message from the API"
-                             prop.onClick
-                                 (fun _ ->
-                                     promise {
-                                         let! message =
-                                             Fetch.get (
-                                                 "/api/GetMessage?name=FSharp",
-                                                 headers = [ HttpRequestHeaders.Accept "application/json" ]
-                                             )
-
-                                         setMessage message
-                                         return ()
-                                     }
-                                     |> ignore) ]
-               if message = "" then
-                   Html.none
-               else
-                   Html.p message ]
-
-[<ReactComponent>]
-let App () = React.fragment [ Counter(); Message() ]
+    React.router [ router.onUrlChanged (parseUrl >> updateUrl)
+                   router.children currentPage ]
 
 open Browser.Dom
 
