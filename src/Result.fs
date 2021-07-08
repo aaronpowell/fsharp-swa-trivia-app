@@ -37,11 +37,16 @@ let ResultPage (props: {| gameId: string; playerId: string |}) =
             |> Array.map
                 (fun answer ->
                     Html.div [ prop.children (
-                                   [| Html.h2 [ prop.text (formatQuestion answer.Correct answer.Question) ]
+                                   [| Html.h2 [ prop.dangerouslySetInnerHTML (
+                                                    formatQuestion answer.Correct answer.Question
+                                                ) ]
                                       Html.ul (
                                           answer.Answers
                                           |> Array.map
-                                              (fun a -> Html.li [ prop.text (formatAnswer answer.CorrectAnswer a) ])
+                                              (fun a ->
+                                                  Html.li [ prop.dangerouslySetInnerHTML (
+                                                                formatAnswer answer.CorrectAnswer a
+                                                            ) ])
                                       ) |]
 
                                ) ])

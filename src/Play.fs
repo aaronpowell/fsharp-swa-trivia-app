@@ -69,7 +69,7 @@ let PlayPage
 
     match currentQuestion with
     | Some currentQuestion ->
-        Html.section [ Html.h1 [ prop.text currentQuestion.Question ]
+        Html.section [ Html.h1 [ prop.dangerouslySetInnerHTML currentQuestion.Question ]
                        Html.ul [ prop.onChange setCurrentAnswer
                                  prop.children (
                                      currentQuestion.Answers
@@ -82,7 +82,8 @@ let PlayPage
                                                                                                   prop.isChecked (
                                                                                                       (answer = currentAnswer)
                                                                                                   ) ]
-                                                                                     Html.span [ prop.text answer ] |] ] ])
+                                                                                     Html.span [ prop.dangerouslySetInnerHTML
+                                                                                                     answer ] |] ] ])
                                      |> Array.toList
                                  ) ]
                        Html.button [ prop.text "Submit Answer"
