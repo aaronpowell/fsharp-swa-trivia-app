@@ -3,5 +3,8 @@
     "azureFunctions.projectLanguage": "F#",
     "azureFunctions.projectRuntime": "~3",
     "debug.internalConsoleOptions": "neverOpen",
-    "azureFunctions.preDeployTask": "publish"
+    "azureFunctions.preDeployTask": "publish",
+    "staticWebApps.appSubpath": "/public",
+    "staticWebApps.apiSubpath": "api",
+    "staticWebApps.outputSubpath": "/"
 }
