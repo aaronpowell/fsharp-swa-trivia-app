@@ -45,7 +45,9 @@ module AnswerQuestion =
                                       Answers = game.Answers |> Array.append [| answer |] }
 
                             do!
-                                updatedGameCollector.AddAsync updatedGame
+                                { game with
+                                      Answers = game.Answers |> Array.append [| answer |] }
+                                |> updatedGameCollector.AddAsync
                                 |> Async.AwaitIAsyncResult
                                 |> Async.Ignore
 
